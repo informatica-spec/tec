@@ -1,0 +1,941 @@
+/* ============================================================
+   CONTROL FOOD — estilos.css
+   Hoja de estilos base. Paleta SCADA industrial.
+   Variables CSS controlan el modo oscuro/claro (data-tema en <body>).
+   ============================================================ */
+
+/* ---------- 1. VARIABLES DE TEMA ---------- */
+:root {
+  /* Paleta industrial */
+  --color-negro: #0a0e14;
+  --color-gris-oscuro: #151b26;
+  --color-gris-medio: #1f2733;
+  --color-gris-borde: #2c3646;
+  --color-azul: #2f9bf0;
+  --color-azul-oscuro: #1b6fc4;
+  --color-verde: #2ecc71;
+  --color-verde-oscuro: #1f9c56;
+  --color-rojo: #ff4d4f;
+  --color-rojo-oscuro: #c0392b;
+  --color-amarillo: #f5c542;
+
+  --texto-principal: #eaf0f7;
+  --texto-secundario: #9aa8bd;
+  --texto-invertido: #0a0e14;
+
+  --fondo-app: var(--color-negro);
+  --fondo-panel: var(--color-gris-oscuro);
+  --fondo-tarjeta: var(--color-gris-medio);
+  --borde-panel: var(--color-gris-borde);
+
+  --sombra-panel: 0 8px 24px rgba(0, 0, 0, 0.45);
+  --radio-borde: 12px;
+  --radio-borde-chico: 8px;
+
+  --fuente-base: "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --fuente-mono: "Consolas", "Courier New", monospace;
+
+  --transicion-rapida: 0.15s ease;
+  --transicion-media: 0.3s ease;
+}
+
+/* Modo claro (opcional, activado por switch-tema) */
+body[data-tema="claro"] {
+  --fondo-app: #eef2f7;
+  --fondo-panel: #ffffff;
+  --fondo-tarjeta: #f5f7fa;
+  --borde-panel: #d3dae3;
+  --texto-principal: #101720;
+  --texto-secundario: #4c5a6c;
+  --texto-invertido: #ffffff;
+  --sombra-panel: 0 8px 24px rgba(20, 30, 45, 0.12);
+}
+
+/* ---------- 2. RESET BÁSICO ---------- */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  height: 100%;
+}
+
+body {
+  font-family: var(--fuente-base);
+  background-color: var(--fondo-app);
+  color: var(--texto-principal);
+  overflow-x: hidden;
+  min-height: 100vh;
+  transition: background-color var(--transicion-media), color var(--transicion-media);
+}
+
+ul {
+  list-style: none;
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+  border: none;
+  background: none;
+  color: inherit;
+}
+
+input {
+  font-family: inherit;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+/* ---------- 3. SISTEMA DE PANTALLAS ---------- */
+.pantalla {
+  display: none;
+  min-height: 100vh;
+  width: 100%;
+  flex-direction: column;
+}
+
+.pantalla.activa {
+  display: flex;
+}
+
+/* ---------- 4. PANTALLA DE CARGA ---------- */
+#pantalla-carga {
+  align-items: center;
+  justify-content: center;
+  background: radial-gradient(circle at 50% 30%, var(--color-gris-oscuro), var(--color-negro) 70%);
+}
+
+.carga-contenedor {
+  text-align: center;
+  width: min(90%, 420px);
+}
+
+.logo-icono {
+  font-size: 4rem;
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+.logo-icono--sm {
+  font-size: 3rem;
+}
+
+.logo-icono--xs {
+  font-size: 1.4rem;
+  margin: 0;
+}
+
+.logo-texto {
+  font-size: 2.2rem;
+  font-weight: 800;
+  letter-spacing: 1px;
+  margin-bottom: 0.4rem;
+}
+
+.logo-texto--sm {
+  font-size: 1.8rem;
+}
+
+.logo-texto .acento {
+  color: var(--color-azul);
+}
+
+.logo-subtitulo {
+  color: var(--texto-secundario);
+  margin-bottom: 2rem;
+  font-size: 0.95rem;
+}
+
+.barra-carga-contenedor {
+  width: 100%;
+  height: 14px;
+  background: var(--color-gris-medio);
+  border: 1px solid var(--borde-panel);
+  border-radius: 999px;
+  overflow: hidden;
+  margin-bottom: 0.6rem;
+}
+
+.barra-carga-relleno {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, var(--color-azul-oscuro), var(--color-azul));
+  border-radius: 999px;
+  transition: width 0.25s ease-out;
+}
+
+.carga-porcentaje {
+  font-weight: 700;
+  margin-bottom: 0.3rem;
+}
+
+.carga-mensaje {
+  color: var(--texto-secundario);
+  font-size: 0.85rem;
+}
+
+/* ---------- 5. PANEL DE VIDRIO (tarjetas centrales flotantes) ---------- */
+.panel-vidrio {
+  background: var(--fondo-panel);
+  border: 1px solid var(--borde-panel);
+  border-radius: var(--radio-borde);
+  box-shadow: var(--sombra-panel);
+  padding: 2.2rem 2rem;
+  width: min(92%, 440px);
+  margin: auto;
+  text-align: center;
+}
+
+.panel-titulo {
+  font-size: 1.4rem;
+  font-weight: 700;
+  margin-bottom: 1.4rem;
+}
+
+/* ---------- 6. PANTALLA DE INICIO ---------- */
+#pantalla-inicio {
+  align-items: center;
+  justify-content: center;
+  background: radial-gradient(circle at 50% 20%, var(--color-gris-oscuro), var(--color-negro) 75%);
+}
+
+.inicio-contenedor .boton {
+  width: 100%;
+  margin-top: 0.8rem;
+}
+
+.version-info {
+  margin-top: 1.4rem;
+  color: var(--texto-secundario);
+  font-size: 0.75rem;
+}
+
+/* ---------- 7. BOTONES ---------- */
+.boton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  padding: 0.75rem 1.4rem;
+  border-radius: var(--radio-borde-chico);
+  font-weight: 600;
+  font-size: 0.95rem;
+  transition: transform var(--transicion-rapida), box-shadow var(--transicion-rapida), background var(--transicion-rapida);
+}
+
+.boton:active {
+  transform: scale(0.97);
+}
+
+.boton--primario {
+  background: linear-gradient(180deg, var(--color-azul), var(--color-azul-oscuro));
+  color: #fff;
+  box-shadow: 0 4px 14px rgba(47, 155, 240, 0.35);
+}
+
+.boton--primario:hover {
+  box-shadow: 0 6px 18px rgba(47, 155, 240, 0.5);
+}
+
+.boton--secundario {
+  background: var(--fondo-tarjeta);
+  border: 1px solid var(--borde-panel);
+  color: var(--texto-principal);
+}
+
+.boton--secundario:hover {
+  border-color: var(--color-azul);
+}
+
+.boton--peligro {
+  background: transparent;
+  border: 1px solid var(--color-rojo);
+  color: var(--color-rojo);
+}
+
+.boton--peligro:hover {
+  background: rgba(255, 77, 79, 0.1);
+}
+
+.boton--grande {
+  padding: 1rem 1.8rem;
+  font-size: 1.05rem;
+  width: 100%;
+}
+
+.boton-icono {
+  width: 38px;
+  height: 38px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: var(--fondo-tarjeta);
+  border: 1px solid var(--borde-panel);
+  font-size: 1.05rem;
+}
+
+.boton-icono:hover {
+  border-color: var(--color-azul);
+}
+
+/* ---------- 8. ENCABEZADO DE APP ---------- */
+.encabezado-app {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.8rem 1.2rem;
+  background: var(--fondo-panel);
+  border-bottom: 1px solid var(--borde-panel);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.encabezado-app--juego {
+  gap: 1.2rem;
+}
+
+.encabezado-marca {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.encabezado-titulo {
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  font-size: 1rem;
+}
+
+.encabezado-perfil {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-left: auto;
+}
+
+/* ---------- 9. PERFIL / RANGO / XP ---------- */
+.perfil-rango {
+  min-width: 140px;
+}
+
+.perfil-rango-nombre {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--texto-secundario);
+}
+
+.perfil-xp-barra {
+  width: 100%;
+  height: 6px;
+  background: var(--color-gris-medio);
+  border-radius: 999px;
+  overflow: hidden;
+  margin-top: 0.25rem;
+}
+
+.perfil-xp-relleno {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, var(--color-verde-oscuro), var(--color-verde));
+  transition: width var(--transicion-media);
+}
+
+.perfil-stats {
+  display: flex;
+  gap: 0.8rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+/* ---------- 10. MENÚ PRINCIPAL ---------- */
+.menu-contenido {
+  padding: 1.6rem;
+  max-width: 1100px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.menu-titulo {
+  font-size: 1.4rem;
+  margin-bottom: 0.3rem;
+}
+
+.menu-descripcion {
+  color: var(--texto-secundario);
+  margin-bottom: 1.4rem;
+  font-size: 0.9rem;
+}
+
+.grilla-niveles {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 1rem;
+  margin-bottom: 1.6rem;
+}
+
+.menu-secundario {
+  display: flex;
+  gap: 0.8rem;
+  flex-wrap: wrap;
+}
+
+/* ---------- 11. TARJETAS GENÉRICAS ---------- */
+.tarjeta {
+  background: var(--fondo-panel);
+  border: 1px solid var(--borde-panel);
+  border-radius: var(--radio-borde);
+  padding: 1.2rem;
+  box-shadow: var(--sombra-panel);
+}
+
+/* Tarjeta de nivel (generada dinámicamente por ui.js) */
+.tarjeta-nivel {
+  background: var(--fondo-panel);
+  border: 1px solid var(--borde-panel);
+  border-radius: var(--radio-borde);
+  padding: 1.1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  transition: border-color var(--transicion-rapida), transform var(--transicion-rapida);
+  cursor: pointer;
+}
+
+.tarjeta-nivel:hover {
+  border-color: var(--color-azul);
+  transform: translateY(-2px);
+}
+
+.tarjeta-nivel.bloqueada {
+  opacity: 0.45;
+  cursor: not-allowed;
+  filter: grayscale(0.6);
+}
+
+.tarjeta-nivel.bloqueada:hover {
+  transform: none;
+  border-color: var(--borde-panel);
+}
+
+.tarjeta-nivel-icono {
+  font-size: 1.8rem;
+}
+
+.tarjeta-nivel-titulo {
+  font-weight: 700;
+  font-size: 1rem;
+}
+
+.tarjeta-nivel-desc {
+  color: var(--texto-secundario);
+  font-size: 0.8rem;
+  flex-grow: 1;
+}
+
+.tarjeta-nivel-barra {
+  width: 100%;
+  height: 6px;
+  background: var(--color-gris-medio);
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.tarjeta-nivel-barra-relleno {
+  height: 100%;
+  background: linear-gradient(90deg, var(--color-azul-oscuro), var(--color-azul));
+}
+
+/* ---------- 12. CONFIGURACIÓN ---------- */
+.config-fila {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.8rem 0;
+  border-bottom: 1px solid var(--borde-panel);
+  text-align: left;
+}
+
+.config-fila--botones {
+  justify-content: center;
+  border-bottom: none;
+  padding-top: 1.2rem;
+}
+
+/* Switch tipo toggle */
+.switch {
+  appearance: none;
+  width: 42px;
+  height: 24px;
+  background: var(--color-gris-medio);
+  border: 1px solid var(--borde-panel);
+  border-radius: 999px;
+  position: relative;
+  cursor: pointer;
+  transition: background var(--transicion-rapida);
+}
+
+.switch::before {
+  content: "";
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--texto-secundario);
+  transition: transform var(--transicion-rapida), background var(--transicion-rapida);
+}
+
+.switch:checked {
+  background: var(--color-azul-oscuro);
+}
+
+.switch:checked::before {
+  transform: translateX(18px);
+  background: #fff;
+}
+
+/* Slider */
+input[type="range"] {
+  width: 55%;
+  accent-color: var(--color-azul);
+}
+
+#pantalla-config .boton--primario {
+  width: 100%;
+  margin-top: 1.2rem;
+}
+
+/* ---------- 13. LOGROS ---------- */
+.logros-contenido {
+  padding: 1.6rem;
+  max-width: 1000px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.grilla-logros {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 1rem;
+}
+
+.tarjeta-logro {
+  background: var(--fondo-panel);
+  border: 1px solid var(--borde-panel);
+  border-radius: var(--radio-borde);
+  padding: 1rem;
+  text-align: center;
+  opacity: 0.4;
+  filter: grayscale(1);
+}
+
+.tarjeta-logro.desbloqueado {
+  opacity: 1;
+  filter: none;
+  border-color: var(--color-amarillo);
+}
+
+.tarjeta-logro-icono {
+  font-size: 1.8rem;
+  margin-bottom: 0.4rem;
+}
+
+.tarjeta-logro-nombre {
+  font-weight: 700;
+  font-size: 0.9rem;
+}
+
+.tarjeta-logro-desc {
+  color: var(--texto-secundario);
+  font-size: 0.75rem;
+  margin-top: 0.2rem;
+}
+
+/* ---------- 14. NIVEL EN JUEGO ---------- */
+.nivel-info {
+  flex-grow: 1;
+}
+
+.nivel-info-titulo {
+  font-weight: 700;
+  font-size: 0.9rem;
+  display: block;
+  margin-bottom: 0.25rem;
+}
+
+.nivel-info-barra {
+  width: 100%;
+  max-width: 320px;
+  height: 6px;
+  background: var(--color-gris-medio);
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.nivel-info-progreso-relleno {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, var(--color-azul-oscuro), var(--color-azul));
+  transition: width var(--transicion-media);
+}
+
+.nivel-area-juego {
+  flex-grow: 1;
+  padding: 1.4rem;
+  max-width: 1100px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.nivel-panel-feedback {
+  padding: 1rem 1.4rem;
+  background: var(--fondo-panel);
+  border-top: 1px solid var(--borde-panel);
+  text-align: center;
+  font-weight: 600;
+}
+
+/* Estados de feedback */
+.nivel-panel-feedback.correcto {
+  color: var(--color-verde);
+}
+
+.nivel-panel-feedback.incorrecto {
+  color: var(--color-rojo);
+}
+
+/* ---------- 15. PANTALLA DE RESULTADO ---------- */
+#pantalla-resultado {
+  align-items: center;
+  justify-content: center;
+  background: radial-gradient(circle at 50% 20%, var(--color-gris-oscuro), var(--color-negro) 75%);
+}
+
+.resultado-icono {
+  font-size: 3rem;
+  margin-bottom: 0.6rem;
+}
+
+.resultado-detalle {
+  color: var(--texto-secundario);
+  margin-bottom: 1.2rem;
+  font-size: 0.9rem;
+}
+
+.resultado-logro {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  background: var(--fondo-tarjeta);
+  border: 1px solid var(--color-amarillo);
+  border-radius: var(--radio-borde-chico);
+  padding: 0.6rem;
+  margin-bottom: 1.2rem;
+  font-size: 0.85rem;
+}
+
+.oculto {
+  display: none !important;
+}
+
+.resultado-botones {
+  display: flex;
+  gap: 0.8rem;
+}
+
+.resultado-botones .boton {
+  flex: 1;
+}
+
+/* ---------- 16. SALA SCADA ---------- */
+.alarma-indicador {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  margin-left: auto;
+}
+
+.led {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  display: inline-block;
+  background: var(--color-verde);
+  box-shadow: 0 0 8px var(--color-verde);
+}
+
+.led--ok {
+  background: var(--color-verde);
+  box-shadow: 0 0 8px var(--color-verde);
+}
+
+.led--alerta {
+  background: var(--color-amarillo);
+  box-shadow: 0 0 8px var(--color-amarillo);
+}
+
+.led--alarma {
+  background: var(--color-rojo);
+  box-shadow: 0 0 10px var(--color-rojo);
+}
+
+.scada-tablero {
+  padding: 1.4rem;
+  max-width: 1200px;
+  width: 100%;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+.scada-grilla-medidores {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1rem;
+}
+
+.panel-variable {
+  text-align: center;
+}
+
+.panel-variable-titulo {
+  font-size: 0.9rem;
+  margin-bottom: 0.6rem;
+  color: var(--texto-secundario);
+}
+
+.panel-variable-valor {
+  font-family: var(--fuente-mono);
+  font-size: 1.3rem;
+  font-weight: 700;
+  margin-top: 0.6rem;
+}
+
+/* Medidor circular (gauge) */
+.medidor {
+  width: 110px;
+  height: 110px;
+  margin: 0 auto;
+  border-radius: 50%;
+  background: conic-gradient(var(--color-verde) 0deg, var(--color-gris-medio) 0deg);
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 4px solid var(--color-gris-medio);
+}
+
+.medidor::before {
+  content: "";
+  position: absolute;
+  width: 78%;
+  height: 78%;
+  border-radius: 50%;
+  background: var(--fondo-panel);
+}
+
+.medidor-aguja {
+  position: absolute;
+  width: 3px;
+  height: 40%;
+  background: var(--color-azul);
+  top: 10%;
+  left: 50%;
+  transform-origin: bottom center;
+  transform: translateX(-50%) rotate(0deg);
+  transition: transform var(--transicion-media);
+  border-radius: 2px;
+  z-index: 2;
+}
+
+/* Indicador vertical de nivel (tanque) */
+.indicador-vertical {
+  width: 50px;
+  height: 110px;
+  margin: 0 auto;
+  border: 3px solid var(--color-gris-medio);
+  border-radius: var(--radio-borde-chico);
+  position: relative;
+  overflow: hidden;
+  background: var(--fondo-panel);
+}
+
+.indicador-vertical-relleno {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 0%;
+  background: linear-gradient(180deg, var(--color-azul), var(--color-azul-oscuro));
+  transition: height var(--transicion-media);
+}
+
+/* Eventos */
+.scada-lista-eventos {
+  max-height: 220px;
+  overflow-y: auto;
+  font-family: var(--fuente-mono);
+  font-size: 0.8rem;
+}
+
+.scada-lista-eventos li {
+  padding: 0.4rem 0;
+  border-bottom: 1px solid var(--borde-panel);
+  color: var(--texto-secundario);
+}
+
+.scada-lista-eventos li.evento-alarma {
+  color: var(--color-rojo);
+}
+
+.scada-lista-eventos li.evento-ok {
+  color: var(--color-verde);
+}
+
+/* Acciones */
+.scada-grilla-acciones {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 0.6rem;
+}
+
+.boton-actuador {
+  background: var(--fondo-tarjeta);
+  border: 1px solid var(--borde-panel);
+  border-radius: var(--radio-borde-chico);
+  padding: 0.8rem;
+  text-align: center;
+  font-size: 0.85rem;
+  font-weight: 600;
+  transition: border-color var(--transicion-rapida), background var(--transicion-rapida);
+}
+
+.boton-actuador:hover {
+  border-color: var(--color-azul);
+}
+
+.boton-actuador.activo {
+  background: var(--color-azul-oscuro);
+  border-color: var(--color-azul);
+  color: #fff;
+}
+
+/* ---------- 17. MINI PLC ---------- */
+.plc-contenido {
+  padding: 1.4rem;
+  max-width: 800px;
+  width: 100%;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.plc-instrucciones {
+  color: var(--texto-secundario);
+  font-size: 0.9rem;
+}
+
+.plc-editor {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+.plc-editor-fila {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+}
+
+.plc-palabra-clave {
+  font-family: var(--fuente-mono);
+  font-weight: 700;
+  color: var(--color-azul);
+  min-width: 70px;
+}
+
+.plc-select, .plc-input {
+  background: var(--fondo-tarjeta);
+  border: 1px solid var(--borde-panel);
+  color: var(--texto-principal);
+  border-radius: var(--radio-borde-chico);
+  padding: 0.5rem 0.7rem;
+  font-family: var(--fuente-mono);
+}
+
+.plc-input {
+  width: 90px;
+}
+
+.plc-lista-reglas {
+  font-family: var(--fuente-mono);
+  font-size: 0.85rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.plc-lista-reglas li {
+  background: var(--fondo-tarjeta);
+  border: 1px solid var(--borde-panel);
+  border-radius: var(--radio-borde-chico);
+  padding: 0.5rem 0.7rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.plc-lista-reglas .btn-borrar-regla {
+  color: var(--color-rojo);
+  font-weight: 700;
+}
+
+/* ---------- 18. NOTIFICACIONES / TOASTS ---------- */
+.contenedor-notificaciones {
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  z-index: 999;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  max-width: 320px;
+}
+
+.notificacion {
+  background: var(--fondo-panel);
+  border: 1px solid var(--borde-panel);
+  border-left: 4px solid var(--color-azul);
+  border-radius: var(--radio-borde-chico);
+  padding: 0.8rem 1rem;
+  box-shadow: var(--sombra-panel);
+  font-size: 0.85rem;
+}
+
+.notificacion--exito {
+  border-left-color: var(--color-verde);
+}
+
+.notificacion--error {
+  border-left-color: var(--color-rojo);
+}
+
+.notificacion--logro {
+  border-left-color: var(--color-amarillo);
+}

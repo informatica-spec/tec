@@ -1,0 +1,252 @@
+/* ============================================================
+   CONTROL FOOD — animaciones.css
+   Keyframes y transiciones usadas en toda la aplicación.
+   ============================================================ */
+
+/* ---------- 1. TRANSICIÓN ENTRE PANTALLAS ---------- */
+.pantalla {
+  animation: aparecerPantalla 0.35s ease;
+}
+
+@keyframes aparecerPantalla {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ---------- 2. LOGO DE CARGA ---------- */
+.logo-icono {
+  animation: flotar 3s ease-in-out infinite;
+}
+
+@keyframes flotar {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+}
+
+/* ---------- 3. LEDs (parpadeo de alarma) ---------- */
+.led--alarma {
+  animation: parpadeoAlarma 0.9s ease-in-out infinite;
+}
+
+@keyframes parpadeoAlarma {
+  0%, 100% {
+    opacity: 1;
+    box-shadow: 0 0 10px var(--color-rojo);
+  }
+  50% {
+    opacity: 0.35;
+    box-shadow: 0 0 2px var(--color-rojo);
+  }
+}
+
+.led--alerta {
+  animation: parpadeoAlerta 1.4s ease-in-out infinite;
+}
+
+@keyframes parpadeoAlerta {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+/* ---------- 4. TARJETA CON ALARMA ACTIVA ---------- */
+.panel-variable.en-alarma {
+  animation: bordeAlarma 1s ease-in-out infinite;
+}
+
+@keyframes bordeAlarma {
+  0%, 100% {
+    border-color: var(--borde-panel);
+  }
+  50% {
+    border-color: var(--color-rojo);
+  }
+}
+
+/* ---------- 5. AGUJA DE MEDIDOR ---------- */
+.medidor-aguja {
+  /* La rotación real la controla ui.js vía transform inline;
+     acá solo se define una transición suave tipo "resorte". */
+  transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* ---------- 6. RELLENOS DE BARRAS (xp, carga, tanque) ---------- */
+.barra-carga-relleno,
+.perfil-xp-relleno,
+.nivel-info-progreso-relleno,
+.tarjeta-nivel-barra-relleno,
+.indicador-vertical-relleno {
+  transition: width 0.4s ease, height 0.4s ease;
+}
+
+/* ---------- 7. GANANCIA DE XP (pulso) ---------- */
+.xp-pulso {
+  animation: pulsoXp 0.5s ease;
+}
+
+@keyframes pulsoXp {
+  0% {
+    transform: scale(1);
+  }
+  40% {
+    transform: scale(1.08);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* ---------- 8. FEEDBACK DE ACIERTO / ERROR ---------- */
+.destello-correcto {
+  animation: destelloVerde 0.6s ease;
+}
+
+@keyframes destelloVerde {
+  0% {
+    background-color: rgba(46, 204, 113, 0.25);
+  }
+  100% {
+    background-color: transparent;
+  }
+}
+
+.destello-incorrecto {
+  animation: destelloRojo 0.6s ease, sacudir 0.4s ease;
+}
+
+@keyframes destelloRojo {
+  0% {
+    background-color: rgba(255, 77, 79, 0.25);
+  }
+  100% {
+    background-color: transparent;
+  }
+}
+
+@keyframes sacudir {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-6px);
+  }
+  75% {
+    transform: translateX(6px);
+  }
+}
+
+/* ---------- 9. TARJETA DE LOGRO DESBLOQUEADO ---------- */
+.tarjeta-logro.desbloqueado {
+  animation: aparecerLogro 0.5s ease;
+}
+
+@keyframes aparecerLogro {
+  0% {
+    opacity: 0;
+    transform: scale(0.85) rotate(-3deg);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) rotate(0deg);
+  }
+}
+
+/* ---------- 10. ÍCONO DE RESULTADO (pantalla ascenso/derrota) ---------- */
+.resultado-icono {
+  animation: rebotarIcono 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes rebotarIcono {
+  0% {
+    opacity: 0;
+    transform: scale(0.4);
+  }
+  60% {
+    opacity: 1;
+    transform: scale(1.15);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* ---------- 11. NOTIFICACIONES (toasts) ---------- */
+.notificacion {
+  animation: entrarNotificacion 0.3s ease, salirNotificacion 0.3s ease 2.7s forwards;
+}
+
+@keyframes entrarNotificacion {
+  from {
+    opacity: 0;
+    transform: translateX(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes salirNotificacion {
+  from {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateX(30px);
+  }
+}
+
+/* ---------- 12. BOTONES DE ACTUADOR (activación) ---------- */
+.boton-actuador.activo {
+  animation: activarActuador 0.3s ease;
+}
+
+@keyframes activarActuador {
+  0% {
+    transform: scale(0.95);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* ---------- 13. EVENTOS NUEVOS EN LA LISTA SCADA ---------- */
+.scada-lista-eventos li {
+  animation: entrarEvento 0.25s ease;
+}
+
+@keyframes entrarEvento {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ---------- 14. REDUCCIÓN DE MOVIMIENTO (accesibilidad) ---------- */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
