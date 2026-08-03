@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="CONTROL FOOD - Simulador Inteligente de una Planta Alimenticia. Aprendé Tecnología de Control jugando.">
+  <title>CONTROL FOOD | Simulador de Planta Alimenticia</title>
+
+  <!-- Fuente -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+
+  <!-- Hojas de estilo -->
+  <link rel="stylesheet" href="css/estilos.css">
+  <link rel="stylesheet" href="css/animaciones.css">
+  <link rel="stylesheet" href="css/responsive.css">
+
+  <!-- Favicon (placeholder SVG inline como data URI para no depender de archivo externo) -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🏭</text></svg>">
+</head>
+<body data-tema="oscuro">
+
+  <!-- ============================================================
+       PANTALLA 1: CARGA (LOADING SCREEN)
+       ============================================================ -->
+  <section id="pantalla-carga" class="pantalla activa">
+    <div class="carga-contenedor">
+      <div class="logo-carga">
+        <span class="logo-icono">🏭</span>
+        <h1 class="logo-texto">CONTROL <span class="acento">FOOD</span></h1>
+        <p class="logo-subtitulo">Simulador Inteligente de una Planta Alimenticia</p>
+      </div>
+
+      <div class="barra-carga-contenedor" role="progressbar" aria-label="Cargando sistema" aria-valuemin="0" aria-valuemax="100">
+        <div id="barra-carga-relleno" class="barra-carga-relleno"></div>
+      </div>
+      <p id="carga-porcentaje" class="carga-porcentaje">0%</p>
+      <p id="carga-mensaje" class="carga-mensaje">Inicializando módulos de control...</p>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       PANTALLA 2: INICIO (SPLASH / BIENVENIDA)
+       ============================================================ -->
+  <section id="pantalla-inicio" class="pantalla">
+    <div class="panel-vidrio inicio-contenedor">
+      <span class="logo-icono logo-icono--sm">🏭</span>
+      <h1 class="logo-texto logo-texto--sm">CONTROL <span class="acento">FOOD</span></h1>
+      <p class="logo-subtitulo">Convertite en Operador de Planta y ascendé a Especialista en Automatización</p>
+
+      <button id="btn-comenzar" class="boton boton--primario boton--grande">
+        Comenzar
+      </button>
+
+      <button id="btn-ir-menu" class="boton boton--secundario">
+        Continuar sesión guardada
+      </button>
+
+      <p class="version-info">v0.1.0 — Uso educativo</p>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       PANTALLA 3: MENÚ PRINCIPAL
+       ============================================================ -->
+  <section id="pantalla-menu" class="pantalla">
+    <header class="encabezado-app">
+      <div class="encabezado-marca">
+        <span class="logo-icono logo-icono--xs">🏭</span>
+        <span class="encabezado-titulo">CONTROL FOOD</span>
+      </div>
+
+      <div class="encabezado-perfil">
+        <div class="perfil-rango">
+          <span id="perfil-rango-nombre" class="perfil-rango-nombre">Operador Junior</span>
+          <div class="perfil-xp-barra">
+            <div id="perfil-xp-relleno" class="perfil-xp-relleno"></div>
+          </div>
+        </div>
+        <div class="perfil-stats">
+          <span class="stat" title="Vidas">❤️ <span id="stat-vidas">3</span></span>
+          <span class="stat" title="Puntaje">⭐ <span id="stat-puntaje">0</span></span>
+        </div>
+        <button id="btn-config" class="boton-icono" aria-label="Configuración">⚙️</button>
+      </div>
+    </header>
+
+    <main class="menu-contenido">
+      <h2 class="menu-titulo">Panel de Operaciones</h2>
+      <p class="menu-descripcion">Elegí un módulo para continuar tu formación como operador de planta.</p>
+
+      <div id="lista-niveles" class="grilla-niveles">
+        <!-- Las tarjetas de nivel se generan dinámicamente por niveles.js / ui.js -->
+      </div>
+
+      <div class="menu-secundario">
+        <button id="btn-logros" class="boton boton--secundario">🏆 Logros</button>
+        <button id="btn-simulador-libre" class="boton boton--secundario">🖥️ Sala SCADA libre</button>
+      </div>
+    </main>
+  </section>
+
+  <!-- ============================================================
+       PANTALLA 4: CONFIGURACIÓN
+       ============================================================ -->
+  <section id="pantalla-config" class="pantalla">
+    <div class="panel-vidrio config-contenedor">
+      <h2 class="panel-titulo">Configuración</h2>
+
+      <div class="config-fila">
+        <label for="switch-sonido">Sonido</label>
+        <input type="checkbox" id="switch-sonido" class="switch" checked>
+      </div>
+
+      <div class="config-fila">
+        <label for="switch-tema">Modo oscuro</label>
+        <input type="checkbox" id="switch-tema" class="switch" checked>
+      </div>
+
+      <div class="config-fila">
+        <label for="slider-dificultad">Dificultad</label>
+        <input type="range" id="slider-dificultad" min="1" max="3" value="2" step="1">
+      </div>
+
+      <div class="config-fila config-fila--botones">
+        <button id="btn-reiniciar-progreso" class="boton boton--peligro">Reiniciar progreso</button>
+      </div>
+
+      <button id="btn-config-volver" class="boton boton--primario">Volver</button>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       PANTALLA 5: LOGROS
+       ============================================================ -->
+  <section id="pantalla-logros" class="pantalla">
+    <header class="encabezado-app">
+      <button id="btn-logros-volver" class="boton-icono" aria-label="Volver">←</button>
+      <span class="encabezado-titulo">Logros</span>
+    </header>
+    <main class="logros-contenido">
+      <div id="grilla-logros" class="grilla-logros">
+        <!-- Tarjetas de logros generadas dinámicamente -->
+      </div>
+    </main>
+  </section>
+
+  <!-- ============================================================
+       PANTALLA 6: NIVEL EN JUEGO (contenedor genérico)
+       Se usa para los niveles 1 a 4. El contenido interno de la
+       consigna lo arma niveles.js / ui.js según el nivel activo.
+       ============================================================ -->
+  <section id="pantalla-nivel" class="pantalla">
+    <header class="encabezado-app encabezado-app--juego">
+      <button id="btn-nivel-salir" class="boton-icono" aria-label="Salir del nivel">←</button>
+      <div class="nivel-info">
+        <span id="nivel-info-titulo" class="nivel-info-titulo">Nivel 1 — Sensores</span>
+        <div class="nivel-info-barra">
+          <div id="nivel-info-progreso" class="nivel-info-progreso-relleno"></div>
+        </div>
+      </div>
+      <div class="perfil-stats">
+        <span class="stat" title="Vidas">❤️ <span id="nivel-stat-vidas">3</span></span>
+        <span class="stat" title="Puntaje">⭐ <span id="nivel-stat-puntaje">0</span></span>
+      </div>
+    </header>
+
+    <main id="nivel-area-juego" class="nivel-area-juego">
+      <!-- Contenido específico del nivel (consignas, tarjetas de sensores,
+           panel de variables, tablero de perturbaciones, editor de reglas
+           del mini PLC) se inyecta acá dinámicamente. -->
+    </main>
+
+    <footer id="nivel-panel-feedback" class="nivel-panel-feedback">
+      <p id="nivel-feedback-texto">Observá el proceso y tomá una decisión.</p>
+    </footer>
+  </section>
+
+  <!-- ============================================================
+       PANTALLA 7: RESULTADO DE NIVEL (ascenso / repetir)
+       ============================================================ -->
+  <section id="pantalla-resultado" class="pantalla">
+    <div class="panel-vidrio resultado-contenedor">
+      <div id="resultado-icono" class="resultado-icono">🎉</div>
+      <h2 id="resultado-titulo" class="panel-titulo">¡Nivel superado!</h2>
+      <p id="resultado-detalle" class="resultado-detalle">Ganaste 50 XP y desbloqueaste el siguiente nivel.</p>
+
+      <div id="resultado-logro-obtenido" class="resultado-logro oculto">
+        <span class="resultado-logro-icono">🏆</span>
+        <span id="resultado-logro-texto">Logro desbloqueado</span>
+      </div>
+
+      <div class="resultado-botones">
+        <button id="btn-resultado-reintentar" class="boton boton--secundario">Reintentar</button>
+        <button id="btn-resultado-continuar" class="boton boton--primario">Continuar</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       PANTALLA 8: SALA SCADA (simulador libre / panel de planta)
+       Usada como base visual para niveles y para el modo libre.
+       ============================================================ -->
+  <section id="pantalla-scada" class="pantalla">
+    <header class="encabezado-app encabezado-app--juego">
+      <button id="btn-scada-salir" class="boton-icono" aria-label="Salir">←</button>
+      <span class="encabezado-titulo">Sala SCADA — Línea de Producción</span>
+      <div id="alarma-indicador" class="alarma-indicador">
+        <span class="led led--ok" id="led-estado-general"></span>
+        <span id="alarma-texto">Sistema estable</span>
+      </div>
+    </header>
+
+    <main class="scada-tablero">
+      <!-- Medidores principales -->
+      <div class="scada-grilla-medidores">
+
+        <div class="tarjeta panel-variable" data-variable="temperatura">
+          <h3 class="panel-variable-titulo">🌡️ Temperatura</h3>
+          <div class="medidor" id="medidor-temperatura">
+            <div class="medidor-aguja"></div>
+          </div>
+          <p class="panel-variable-valor"><span id="valor-temperatura">--</span> °C</p>
+        </div>
+
+        <div class="tarjeta panel-variable" data-variable="presion">
+          <h3 class="panel-variable-titulo">🧭 Presión</h3>
+          <div class="medidor" id="medidor-presion">
+            <div class="medidor-aguja"></div>
+          </div>
+          <p class="panel-variable-valor"><span id="valor-presion">--</span> bar</p>
+        </div>
+
+        <div class="tarjeta panel-variable" data-variable="nivel">
+          <h3 class="panel-variable-titulo">🥛 Nivel</h3>
+          <div class="indicador-vertical" id="indicador-nivel">
+            <div class="indicador-vertical-relleno" id="relleno-nivel"></div>
+          </div>
+          <p class="panel-variable-valor"><span id="valor-nivel">--</span> %</p>
+        </div>
+
+        <div class="tarjeta panel-variable" data-variable="caudal">
+          <h3 class="panel-variable-titulo">🌊 Caudal</h3>
+          <div class="medidor" id="medidor-caudal">
+            <div class="medidor-aguja"></div>
+          </div>
+          <p class="panel-variable-valor"><span id="valor-caudal">--</span> L/min</p>
+        </div>
+
+      </div>
+
+      <!-- Panel de eventos / perturbaciones -->
+      <div class="tarjeta scada-eventos">
+        <h3 class="panel-variable-titulo">📋 Registro de eventos</h3>
+        <ul id="lista-eventos" class="scada-lista-eventos">
+          <!-- Eventos generados dinámicamente por simulador.js -->
+        </ul>
+      </div>
+
+      <!-- Panel de acciones del operador -->
+      <div class="tarjeta scada-acciones">
+        <h3 class="panel-variable-titulo">🎛️ Acciones del operador</h3>
+        <div id="grilla-acciones" class="scada-grilla-acciones">
+          <!-- Botones de actuadores generados dinámicamente -->
+        </div>
+      </div>
+
+    </main>
+  </section>
+
+  <!-- ============================================================
+       PANTALLA 9: MINI PLC (Nivel 5 — editor de reglas)
+       ============================================================ -->
+  <section id="pantalla-plc" class="pantalla">
+    <header class="encabezado-app encabezado-app--juego">
+      <button id="btn-plc-salir" class="boton-icono" aria-label="Salir">←</button>
+      <span class="encabezado-titulo">Mini PLC — Programador de Reglas</span>
+    </header>
+
+    <main class="plc-contenido">
+      <p class="plc-instrucciones">
+        Armá reglas de control con el formato <strong>SI [variable] [condición] [valor] ENTONCES [acción]</strong>.
+      </p>
+
+      <div class="plc-editor tarjeta">
+        <div class="plc-editor-fila">
+          <span class="plc-palabra-clave">SI</span>
+          <select id="plc-select-variable" class="plc-select">
+            <option value="temperatura">temperatura</option>
+            <option value="presion">presión</option>
+            <option value="nivel">nivel</option>
+            <option value="caudal">caudal</option>
+          </select>
+          <select id="plc-select-condicion" class="plc-select">
+            <option value="mayor">&gt;</option>
+            <option value="menor">&lt;</option>
+            <option value="igual">=</option>
+          </select>
+          <input type="number" id="plc-input-valor" class="plc-input" placeholder="90">
+        </div>
+        <div class="plc-editor-fila">
+          <span class="plc-palabra-clave">ENTONCES</span>
+          <select id="plc-select-accion" class="plc-select">
+            <!-- Opciones de actuadores generadas dinámicamente -->
+          </select>
+        </div>
+        <button id="btn-plc-agregar-regla" class="boton boton--primario">Agregar regla</button>
+      </div>
+
+      <div class="tarjeta plc-reglas">
+        <h3 class="panel-variable-titulo">📜 Reglas programadas</h3>
+        <ul id="plc-lista-reglas" class="plc-lista-reglas">
+          <!-- Reglas agregadas dinámicamente -->
+        </ul>
+      </div>
+
+      <button id="btn-plc-ejecutar" class="boton boton--primario boton--grande">▶️ Ejecutar simulación</button>
+    </main>
+  </section>
+
+  <!-- ============================================================
+       CONTENEDOR GLOBAL DE NOTIFICACIONES / TOASTS
+       ============================================================ -->
+  <div id="contenedor-notificaciones" class="contenedor-notificaciones" aria-live="polite"></div>
+
+  <!-- ============================================================
+       SCRIPTS
+       Orden de carga: config -> storage -> audio -> simulador ->
+       niveles -> preguntas -> game -> ui -> app (punto de entrada)
+       ============================================================ -->
+  <script src="js/config.js"></script>
+  <script src="js/storage.js"></script>
+  <script src="js/audio.js"></script>
+  <script src="js/simulador.js"></script>
+  <script src="js/niveles.js"></script>
+  <script src="js/preguntas.js"></script>
+  <script src="js/game.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
